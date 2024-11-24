@@ -1,26 +1,54 @@
-from node import Node
+from pipe import pipes
 
-class PathFinding:
-    def __init__(self) -> None:
+def findPath(startNode, targetNode):
+    s = startNode.__class__(startNode.position)
+    openSet = [startNode]
+    closedSet = {}
+    pipes.clear()
+
+    for w in range(1000):
+        currentNode = openSet[0]
+        for i in range(1, len(openSet), 1):
+            if openSet[i].getCost() < currentNode.getCost() or (openSet[i].getCost() == currentNode.getCost() and openSet[i].hCost < currentNode.hCost):
+                currentNode = openSet[i]
+
+        openSet.remove(currentNode)
+        closedSet[tuple(currentNode.position)] = "closed"
         
+        if currentNode.position == targetNode.position:
+            #print(w)
+            retracePath(startNode, currentNode)
+
+            for pipe in pipes:
+                pipe.changeDirection()
+
+            for pipe in pipes:
+                pipe.setSprite()
+            return
+        
+        for neighbor in currentNode.getNeighbors():
+            if closedSet.get(tuple(neighbor.position)) == "closed":
+                continue
+
+            newMovementCostToNeighbor = currentNode.gCost + currentNode.getDistance(neighbor)
+
+            if newMovementCostToNeighbor < neighbor.gCost or neighbor not in openSet:
+                neighbor.gCost = newMovementCostToNeighbor
+                neighbor.hCost = neighbor.getDistance(targetNode)
+                neighbor.parent = currentNode
+
+                if neighbor not in openSet:
+                    openSet.append(neighbor)
+            pass
+    pass
+
+def retracePath(startNode, targetNode):
+    currentNode = targetNode
+
+    while currentNode != startNode:
+        pipes.append(currentNode)
+        currentNode = currentNode.parent
         pass
 
-    def findPath(self, startNode, targetNode):
-        openSet = []
-        closedSet = []
-
-        openSet.append(startNode)
-
-        while len(openSet) > 0:
-            currentNode = openSet[0]
-
-            for node in openSet:
-                if node.getCost() < currentNode.getCost():
-                    currentNode = node
-
-            openSet.remove(currentNode)
-            closedSet.append(currentNode)
-
-            if currentNode.position == targetNode.position:
-                return
-        pass
+    pipes.reverse()
+    pass

@@ -1,12 +1,6 @@
 
-from pygame import gfxdraw
 from setting import *
-from sprite import background
 from scene import Scene
-
-from enums import Direction
-from pipe import Pipe, StartPipe
-
 
 display.init()
 
@@ -16,7 +10,10 @@ class Game:
         self.fps = 60
         
         self.isRunning = True
+
+        self.isPressed = False
         self.mousePosition = Vector2(0, 0)
+
         self.currentScene = Scene()
         pass
 
@@ -26,7 +23,13 @@ class Game:
                 self.isRunning = False
 
             elif ev.type == MOUSEBUTTONDOWN:
-                self.mousePosition = Vector2(mouse.get_pos())        
+                self.isPressed = True
+                self.mousePosition = Vector2(mouse.get_pos())
+
+            else:
+                self.isPressed = False
+
+            self.currentScene.input(self.isPressed, self.mousePosition)  
     
     def update(self):
         self.currentScene.update()
