@@ -39,6 +39,16 @@ startPipeSprites = {
     "T" : import_sprite("assets/START_T.png")
 }
 
+endPipeSprites = {
+    "D" : import_sprite("assets/END_D.png"),
+    "L" : import_sprite("assets/END_L.png"),
+    "R" : import_sprite("assets/END_R.png"),
+    "T" : import_sprite("assets/END_T.png")
+}
+
+
 wallSprite = import_image("assets/wall.png").convert()
+playSprite = import_image("assets/play.png").convert()
+findSprite = import_image("assets/find.png").convert()
 
 pipeButtonSprite = import_image("assets/wall.png")

@@ -65,6 +65,7 @@ def findPath(_startNode, _targetNode):
                     openSet.append(neighbor)
             pass
     pass
+    print("path blocked")
 
 def retracePath(startNode, targetNode):
     currentNode = targetNode

@@ -1,6 +1,6 @@
 from enums import State, Direction
 from setting import WINDOW, Vector2, WIDTH, HEIGHT, GRID_SIZE, drawText
-from sprite import import_sprite, background, wallSprite
+from sprite import import_sprite, background, wallSprite, playSprite, findSprite
 from pipe import Pipe, StartPipe, EndPipe, Wall, pipes, endPipes
 from node import walls, NodeType
 from path_finding import findPath, nodes
@@ -16,18 +16,21 @@ end.setSprite()
 
 wall = Wall(Vector2(7, 7))
 walls[tuple(wall.position)] = wall
+grids[tuple(wall.position)] = wall
 wall = Wall(Vector2(7, 6))
 walls[tuple(wall.position)] = wall
+grids[tuple(wall.position)] = wall
 wall = Wall(Vector2(7, 5))
 walls[tuple(wall.position)] = wall
+grids[tuple(wall.position)] = wall
 
 findPath(start, end)
 n1 = []
 for n in nodes:
     n1.append(n.position)
 
-startPipeButton = Button(Vector2(900, 200), wallSprite)
-endPipeButton = Button(Vector2(900, 300), wallSprite)
+startPipeButton = Button(Vector2(900, 200), playSprite)
+endPipeButton = Button(Vector2(900, 300), findSprite)
 addWallButton = Button(Vector2(900, 400), wallSprite)
 
 for i in range(len(nodes)):

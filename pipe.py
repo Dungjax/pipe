@@ -1,4 +1,4 @@
-from sprite import pipeSprites, startPipeSprites, wallSprite
+from sprite import pipeSprites, startPipeSprites, wallSprite, endPipeSprites
 from pygame import Surface, draw
 from setting import WINDOW, transform, TILE_SIZE
 from node import Node, BlockedNode
@@ -50,7 +50,7 @@ class StartPipe(Pipe):
         self.endDirection = _endDirection
 
     def setSprite(self):
-        self.sprite = startPipeSprites[self.endDirection.value]
+        self.sprite = endPipeSprites[self.endDirection.value]
         self.limitIndex = len(self.sprite) - 1
 
 class EndPipe(Pipe):
@@ -61,7 +61,7 @@ class EndPipe(Pipe):
         self.endDirection = _endDirection
 
     def setSprite(self):
-        self.sprite = startPipeSprites[self.endDirection.value]
+        self.sprite = endPipeSprites[self.endDirection.value]
         self.limitIndex = len(self.sprite) - 1
 
 class Wall(BlockedNode):
