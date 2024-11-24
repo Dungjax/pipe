@@ -14,7 +14,7 @@ class Node:
         self.startDirection = Direction.DOWN
         self.endDirection = Direction.TOP
         
-        self.type = NodeType.BLOCKED if walls.get(tuple(self.position)) == self else NodeType.ALLOWED
+        self.type = NodeType.BLOCKED if walls.get(tuple(self.position)) != None  else NodeType.ALLOWED
         pass
 
     def getDistance(self, target):

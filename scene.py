@@ -37,14 +37,11 @@ class Scene:
                 if addWallButton.isActive:
                     
                     if walls.get(tuple(localMousePosition)).__class__ != Wall:
-                        print(9)
                         wall = Wall(localMousePosition)
                         walls[tuple(wall.position)] = wall
                     else:
                         walls.pop(tuple(localMousePosition))
                         pass
-                    
-                    
         
         for button in buttons:
             button.input(_isPressed, _mousePosition)
