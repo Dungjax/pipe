@@ -6,11 +6,11 @@ buttons = sprite.Group()
 
 
 class Button(sprite.Sprite):
-    def __init__(self, _position) -> None:
+    def __init__(self, _position, _sprite) -> None:
         super().__init__()
         self.isActive = False
 
-        self.sprite = pipeButtonSprite
+        self.sprite = _sprite
         self.rect = self.sprite.get_rect()
         self.rect.center = _position
 

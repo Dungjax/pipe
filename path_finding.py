@@ -1,15 +1,36 @@
 from pipe import pipes, Pipe
+from grid import grids
+from enums import Direction
+from pygame import Vector2
 
 nodes = []
 
-def findPath(startNode, targetNode):
-    s = startNode.__class__(startNode.position)
+def findPath(_startNode, _targetNode):
+    startNode = _startNode
+
+    targetNode = Pipe(_targetNode.position + Vector2(1, 0))
+
+    match _targetNode.endDirection:
+        case Direction.LEFT:
+            targetNode.position = _targetNode.position + Vector2(-1, 0)
+        
+        case Direction.TOP:
+            targetNode.position = _targetNode.position + Vector2(0, -1)
+
+        case Direction.DOWN:
+            targetNode.position = _targetNode.position + Vector2(0, 1)
+    
     openSet = [startNode]
     closedSet = {}
+
     pipes.clear()
 
     for w in range(1000):
-        currentNode = openSet[0]
+        if len(openSet) > 0:
+            currentNode = openSet[0]
+        else:
+            return
+        
         for i in range(1, len(openSet), 1):
             if openSet[i].getCost() < currentNode.getCost() or (openSet[i].getCost() == currentNode.getCost() and openSet[i].hCost < currentNode.hCost):
                 currentNode = openSet[i]
@@ -18,11 +39,12 @@ def findPath(startNode, targetNode):
         closedSet[tuple(currentNode.position)] = "closed"
         
         if currentNode.position == targetNode.position:
-            #print(w)
             retracePath(startNode, currentNode)
 
             for pipe in nodes:
                 pipe.changeDirection()
+
+            pipe.endDirection = _targetNode.startDirection
 
             for pipe in nodes:
                 pipe.setSprite()
@@ -47,9 +69,12 @@ def findPath(startNode, targetNode):
 def retracePath(startNode, targetNode):
     currentNode = targetNode
 
+    nodes.clear()
+
     while currentNode != startNode:
         nodes.append(currentNode)
         pipes.append(currentNode)
+        grids[tuple(currentNode.position)] = currentNode
         currentNode = currentNode.parent
         pass
 

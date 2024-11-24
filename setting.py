@@ -11,11 +11,11 @@ WINDOW = display.set_mode((WIDTH, HEIGHT))
 
 TILE_SIZE = 50
 
-defaultFont = font.Font(None, 20)
+defaultFont = font.Font(None, 50)
 
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 
 def drawText(_text, position):
     text = defaultFont.render(str(_text), True, BLACK)
-    WINDOW.blit(text, position * TILE_SIZE)
+    WINDOW.blit(text, position - Vector2(text.get_width() / 2, text.get_height() / 2))

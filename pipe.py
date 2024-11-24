@@ -14,26 +14,28 @@ class Pipe(Node):
 
         self.sprite = Surface((50, 50))
         self.spriteIndex = 0
-        self.animateSpeed = 0.5
+        self.animateSpeed = 1
         self.limitIndex = 0
+        self.isFinish = False
         pass
 
     def update(self):
         pass
 
-    def draw(self):
+    def draw(self, check):
+        WINDOW.blit(self.sprite[int(self.spriteIndex)], toWorldPoint(self.position))
         #draw.rect(WINDOW, (0, 0, 0), (toWorldPoint(self.position.x), toWorldPoint(self.position.y), TILE_SIZE , TILE_SIZE))
-        self.animate()
+        if check:
+            self.animate()
         pass
 
     def animate(self):
-        WINDOW.blit(self.sprite[int(self.spriteIndex)], toWorldPoint(self.position))
-
         if self.parent.spriteIndex == self.parent.limitIndex or self.parent == self:
             self.spriteIndex += self.animateSpeed
 
             if self.spriteIndex > self.limitIndex:
                 self.spriteIndex = self.limitIndex
+                self.isFinish = True
 
     def setSprite(self):
         self.sprite = pipeSprites[self.startDirection.value + self.endDirection.value]
@@ -41,8 +43,22 @@ class Pipe(Node):
         pass
 
 class StartPipe(Pipe):
-    def __init__(self, _position) -> None:
+    def __init__(self, _position, _startDirection, _endDirection) -> None:
         super().__init__(_position)
+
+        self.startDirection = _startDirection
+        self.endDirection = _endDirection
+
+    def setSprite(self):
+        self.sprite = startPipeSprites[self.endDirection.value]
+        self.limitIndex = len(self.sprite) - 1
+
+class EndPipe(Pipe):
+    def __init__(self, _position, _startDirection, _endDirection) -> None:
+        super().__init__(_position)
+
+        self.startDirection = _startDirection
+        self.endDirection = _endDirection
 
     def setSprite(self):
         self.sprite = startPipeSprites[self.endDirection.value]

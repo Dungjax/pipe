@@ -63,21 +63,28 @@ class Node:
 
         if direction.x > 0:
             self.startDirection = Direction.LEFT
+            self.endDirection = Direction.RIGHT
         elif direction.x < 0:
             self.startDirection = Direction.RIGHT
+            self.endDirection = Direction.LEFT
 
         if direction.y > 0:
             self.startDirection = Direction.TOP
+            self.endDirection = Direction.DOWN
+
         elif direction.y < 0:
             self.startDirection = Direction.DOWN
+            self.endDirection = Direction.TOP
 
         if self.startDirection == Direction.LEFT:
             self.parent.endDirection = Direction.RIGHT
+
         elif self.startDirection == Direction.RIGHT:
             self.parent.endDirection = Direction.LEFT
 
         if self.startDirection == Direction.TOP:
             self.parent.endDirection = Direction.DOWN
+
         elif self.startDirection == Direction.DOWN:
             self.parent.endDirection = Direction.TOP
 
