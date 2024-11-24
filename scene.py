@@ -1,19 +1,19 @@
 from enums import State, Direction
 from setting import WINDOW, Vector2, WIDTH, HEIGHT, GRID_SIZE
 from sprite import import_sprite, background
-from pipe import Pipe, StartPipe, Wall, pipes, walls, endPipes
-from node import NodeType
+from pipe import Pipe, StartPipe, Wall, pipes, endPipes
+from node import walls, NodeType
 from path_finding import findPath
 from grid import toLocalPoint
 from button import Button, buttons
 
-start = Pipe(Vector2(2, 2))
+start = StartPipe(Vector2(2, 2))
 
 end = Pipe(Vector2(13, 7))
 
-startPipeButton = Button(Vector2(900, 200))
-endPipeButton = Button(Vector2(900, 400))
-addWallButton = Button(Vector2(900, 600))
+startPipeButton = Button(Vector2(900, 100))
+endPipeButton = Button(Vector2(900, 200))
+addWallButton = Button(Vector2(900, 300))
 
 class Scene:
     def __init__(self) -> None:
@@ -35,8 +35,16 @@ class Scene:
                     findPath(start, end)
 
                 if addWallButton.isActive:
-                    wall = Wall(localMousePosition)
-                    walls.append(wall)
+                    
+                    if walls.get(tuple(localMousePosition)).__class__ != Wall:
+                        print(9)
+                        wall = Wall(localMousePosition)
+                        walls[tuple(wall.position)] = wall
+                    else:
+                        walls.pop(tuple(localMousePosition))
+                        pass
+                    
+                    
         
         for button in buttons:
             button.input(_isPressed, _mousePosition)
@@ -54,7 +62,7 @@ class Scene:
             pipe.draw()
 
         for wall in walls:
-            wall.draw()
+            walls.get(wall).draw()
 
         for button in buttons:
             button.draw()

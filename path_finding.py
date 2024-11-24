@@ -1,4 +1,6 @@
-from pipe import pipes
+from pipe import pipes, Pipe
+
+nodes = []
 
 def findPath(startNode, targetNode):
     s = startNode.__class__(startNode.position)
@@ -19,14 +21,14 @@ def findPath(startNode, targetNode):
             #print(w)
             retracePath(startNode, currentNode)
 
-            for pipe in pipes:
+            for pipe in nodes:
                 pipe.changeDirection()
 
-            for pipe in pipes:
+            for pipe in nodes:
                 pipe.setSprite()
             return
         
-        for neighbor in currentNode.getNeighbors():
+        for neighbor in currentNode.getNeighbors(Pipe):
             if closedSet.get(tuple(neighbor.position)) == "closed":
                 continue
 
@@ -46,9 +48,10 @@ def retracePath(startNode, targetNode):
     currentNode = targetNode
 
     while currentNode != startNode:
+        nodes.append(currentNode)
         pipes.append(currentNode)
         currentNode = currentNode.parent
         pass
 
-    pipes.reverse()
+    nodes.reverse()
     pass

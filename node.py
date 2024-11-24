@@ -3,7 +3,7 @@ from pygame import draw, Surface
 from grid import toWorldPoint
 from enums import NodeType, Direction
 
-wallChecks = {}
+walls = {}
 
 class Node:
     def __init__(self, _position) -> None:
@@ -14,11 +14,7 @@ class Node:
         self.startDirection = Direction.DOWN
         self.endDirection = Direction.TOP
         
-        self.type = NodeType.BLOCKED if wallChecks.get(tuple(self.position)) == NodeType.BLOCKED else NodeType.ALLOWED
-
-        self.sprite = Surface((50, 50))
-        self.spriteIndex = 0
-        self.animateSpeed = 0.2
+        self.type = NodeType.BLOCKED if walls.get(tuple(self.position)) == self else NodeType.ALLOWED
         pass
 
     def getDistance(self, target):
@@ -35,7 +31,7 @@ class Node:
     def getCost(self):
         return self.gCost + self.hCost
     
-    def getNeighbors(self):
+    def getNeighbors(self, type):
         neighbors = []
 
         cords = [Vector2(0, -1), Vector2(-1, 0), Vector2(1, 0), Vector2(0, 1)]
@@ -43,7 +39,7 @@ class Node:
         for cord in cords:
             nodePosition = Vector2(self.position + Vector2(cord.x, cord.y))
 
-            node = self.__class__(nodePosition)
+            node = type(nodePosition)
 
             if nodePosition.x < 0 or nodePosition.x >= GRID_SIZE or nodePosition.y < 0 or nodePosition.y >= GRID_SIZE or node.type == NodeType.BLOCKED:
                 continue
@@ -89,7 +85,7 @@ class BlockedNode(Node):
     def __init__(self, _position) -> None:
         super().__init__(_position)
 
-        wallChecks[tuple(self.position)] = NodeType.BLOCKED
+        walls[tuple(self.position)] = self
 
     def draw(self):
         draw.rect(WINDOW, (0, 0, 0), (toWorldPoint(self.position.x), toWorldPoint(self.position.y), TILE_SIZE , TILE_SIZE))

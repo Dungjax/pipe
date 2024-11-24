@@ -7,7 +7,6 @@ from enums import Direction
 
 pipes = []
 endPipes = []
-walls = []
 
 class Pipe(Node):
     def __init__(self, _position) -> None:
